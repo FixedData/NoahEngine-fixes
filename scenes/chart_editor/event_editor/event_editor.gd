@@ -268,13 +268,14 @@ func _draw() -> void:
 			)
 		
 		## Song Start Offset Marker
-		rect = Rect2(grid_offset +
-		%Grid.get_real_position(Vector2(0, 0)) + Vector2(time_to_y_position(song_position - ChartManager.chart.offset + start_offset) - 2, 0), \
+		rect = Rect2(grid_offset - $"Grid Layer/Parallax2D".scroll_offset +
+		+ Vector2(time_to_y_position(song_position - ChartManager.chart.offset + start_offset) - 2, %Grid.get_real_position(Vector2(0, 0)).y), \
 		%Grid.get_real_position(Vector2(0, %Grid.rows)) - %Grid.get_real_position(Vector2(0, 0)) + Vector2(4, 0))
 		draw_rect(rect, current_time_color)
 		
 		# The box at the start of the marker
-		rect = Rect2(grid_offset + %Grid.get_real_position(Vector2(0, 0)) + Vector2(time_to_y_position(song_position - ChartManager.chart.offset + start_offset) - 4, 0), \
+		rect = Rect2(grid_offset - $"Grid Layer/Parallax2D".scroll_offset
+		+ Vector2(time_to_y_position(song_position - ChartManager.chart.offset + start_offset) - 4, %Grid.get_real_position(Vector2(0, 0)).y), \
 		%Grid.get_real_position(Vector2(0, 1)) - %Grid.get_real_position(Vector2(0, 0)) + Vector2(8, 0))
 		draw_rect(rect, current_time_color)
 		
