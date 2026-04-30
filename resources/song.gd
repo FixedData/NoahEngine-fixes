@@ -27,4 +27,4 @@ class_name Song
 @export var locked: bool = false
 
 @export_subgroup("Story Mode Stuff")
-@export var dont_display_until_played:bool = false
+@export var dont_display_until_played: bool = false
