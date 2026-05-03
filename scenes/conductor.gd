@@ -56,29 +56,23 @@ var seconds_per_step: float = 0.25
 
 var current_beat: int = -1:
 	set(v):
-		var old_beat: int = current_beat
+		measure_relative_beat = v % beats_per_measure
+		if current_beat != v:
+			emit_signal(&"new_beat", v, measure_relative_beat)
 		
 		current_beat = v
-		measure_relative_beat = v % beats_per_measure
-		
-		if current_beat > old_beat:
-			for idx in range(old_beat, current_beat):
-				idx += 1
-				var local_relative: int = idx % beats_per_measure
-				emit_signal(&"new_beat", idx, local_relative)
+	get():
+		return current_beat
 
 var current_step: int = -1:
 	set(v):
-		var old_step: int = current_step
+		measure_relative_step = v % steps_per_measure
+		if current_step != v:
+			emit_signal(&"new_step", v, measure_relative_step)
 		
 		current_step = v
-		measure_relative_step = v % steps_per_measure
-			
-		if current_step > old_step:
-			for idx in range(old_step, current_step):
-				idx += 1
-				var local_relative: int = idx % steps_per_measure
-				emit_signal(&"new_step", idx, local_relative)
+	get():
+		return current_step
 
 var measure_relative_beat: int = 0
 var measure_relative_step: int = 0
