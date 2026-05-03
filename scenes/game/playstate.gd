@@ -189,13 +189,14 @@ func _process(delta):
 	if get_tree() != null:
 		get_tree().call_group(&"note", &"update_y")
 	
+	if Input.is_action_just_pressed(&"ui_cancel") or Input.is_action_just_pressed(&"ui_accept"):
 		Global.manual_pause = true
 		pause()
 	
-	elif Input.is_action_just_pressed("kill"):
+	if Input.is_action_just_pressed(&"kill"):
 		health = 0
 	
-	elif Input.is_action_just_pressed("chart_editor") and OS.is_debug_build():
+	if Input.is_action_just_pressed(&"chart_editor") and OS.is_debug_build():
 		ChartManager.event_editor = false
 		ChartManager.song = song_data
 		ChartManager.difficulty = GameManager.difficulty
