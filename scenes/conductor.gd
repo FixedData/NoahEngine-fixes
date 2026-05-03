@@ -61,8 +61,6 @@ var current_beat: int = -1:
 			emit_signal(&"new_beat", v, measure_relative_beat)
 		
 		current_beat = v
-	get():
-		return current_beat
 
 var current_step: int = -1:
 	set(v):
@@ -71,8 +69,6 @@ var current_step: int = -1:
 			emit_signal(&"new_step", v, measure_relative_step)
 		
 		current_step = v
-	get():
-		return current_step
 
 var measure_relative_beat: int = 0
 var measure_relative_step: int = 0
