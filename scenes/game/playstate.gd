@@ -96,6 +96,7 @@ func _ready():
 	vocals.set_bus(&"Music")
 	for v in song_data.vocals:
 		vocal_streams.append(load(v))
+	
 	instrumental = AudioStreamPlayer.new()
 	instrumental.stream = load(song_data.instrumental)
 	instrumental.connect("finished", song_finished)
@@ -463,6 +464,8 @@ func note_hit(time, lane, note_type, hit_time, strum_manager):
 			"sick":
 				health += 1
 				strum_manager.create_splash(lane, strum_node.strum_name + " splash")
+			"good":
+				health += 0.5
 			"bad":
 				health -= 0.35
 				combo = -1
