@@ -12,7 +12,7 @@ func _correctWindowSize():
 	if not OS.get_name().to_lower().contains('windows'): 
 		return
 	
-	var dpi = DisplayServer.screen_get_dpi() / 96.0
+	var dpi = DisplayServer.screen_get_dpi(DisplayServer.window_get_current_screen()) / 96.0
 	
 	var new_size = get_window().size * dpi
 	

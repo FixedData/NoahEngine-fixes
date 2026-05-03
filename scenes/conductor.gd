@@ -34,6 +34,7 @@ var beats_per_measure: int = 4:
 	set(v):
 		if beats_per_measure != v:
 			emit_signal(&"new_beats_per_measure", v)
+		
 		beats_per_measure = v
 	get():
 		return beats_per_measure
@@ -43,6 +44,7 @@ var steps_per_measure: int = 4 * beats_per_measure:
 	set(v):
 		if steps_per_measure != v:
 			emit_signal(&"new_steps_per_measure", v)
+		
 		steps_per_measure = v
 		seconds_per_step = seconds_per_beat / (steps_per_measure / beats_per_measure)
 	get():
@@ -54,25 +56,21 @@ var seconds_per_step: float = 0.25
 # Stored Statistics:
 # These variables only exist for the purpose of grabbing info
 
-var current_beat: int:
+var current_beat: int = -1:
 	set(v):
 		measure_relative_beat = v % beats_per_measure
 		if current_beat != v:
 			emit_signal(&"new_beat", v, measure_relative_beat)
 		
 		current_beat = v
-	get():
-		return current_beat
 
-var current_step: int:
+var current_step: int = -1:
 	set(v):
 		measure_relative_step = v % steps_per_measure
 		if current_step != v:
 			emit_signal(&"new_step", v, measure_relative_step)
 		
 		current_step = v
-	get():
-		return current_step
 
 var measure_relative_beat: int = 0
 var measure_relative_step: int = 0
@@ -89,10 +87,10 @@ func _process(_delta):
 	current_step = get_step_at(time)
 
 func get_beat_at(_time: float) -> int:
-	return int((_time - offset) / seconds_per_beat)
+	return floor((_time - offset) / seconds_per_beat)
 
 func get_step_at(_time: float) -> int:
-	return int((_time - offset) / (seconds_per_beat / (steps_per_measure / beats_per_measure)))
+	return floor((_time - offset) / (seconds_per_beat / (steps_per_measure / beats_per_measure)))
 
 func get_measure_at(_time: float) -> int:
-	return int((_time - offset) / (seconds_per_beat * beats_per_measure))
+	return floor((_time - offset) / (seconds_per_beat * beats_per_measure))

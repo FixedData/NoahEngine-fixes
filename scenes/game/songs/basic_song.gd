@@ -53,16 +53,7 @@ func _on_conductor_new_beat(current_beat, measure_relative):
 		
 		get_tree().call_group(&"metronome", &"play_animation", &"idle", GameManager.seconds_per_beat * 2)
 	
-	playstate_host.ui.icon_bop(playstate_host.conductor.seconds_per_beat * 0.5 *
-	(1 / playstate_host.instrumental.pitch_scale))
-
-func _on_conductor_new_step(current_step, measure_relative):
-	if current_step % bop_rate == 0:
-		var strength = playstate_host.camera_bop_strength if playstate_host.camera.get_direct() is Camera2D else playstate_host.camera_bop_strength.x
-		playstate_host.camera.zoom += strength * playstate_host.camera.zoom
-		
-		if SettingsManager.get_value(SettingsManager.SEC_PREFERENCES, "ui_bops"):
-			playstate_host.ui.scale += playstate_host.ui_bop_strength
+	print(playstate_host.conductor.current_beat)
 
 
 func _on_create_note(time, lane, note_length, note_type, tempo):
