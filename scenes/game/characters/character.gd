@@ -14,34 +14,22 @@ class_name Character
 @export var icons: SpriteFrames = load("res://assets/sprites/playstate/icons/face.tres")
 @export var color: Color = Color(0.168627, 0.121569, 0.203922)
 
-@export var animation_player:Node = null
+@onready var animation_player = $AnimatedSprite2D
 
 var current_animation: StringName = idle_animation
 var can_idle: bool = true
 var holding: bool = false
 
 func _ready():
-	if not animation_player:
-		animation_player = $AnimatedSprite2D
-		if not animation_player:
-			animation_player = $AnimateSymbol
-	
-	if not animation_player:
-		printerr("Character animation player was not set and could not be found.")
-		return
-		
-	
-	if animation_player is AnimateSymbol:
-		animation_player.connect(&"finished", self._on_animation_finished)
-	else:
+	if animation_player:
 		animation_player.play()
-		animation_player.connect(&"animation_finished", self._on_animation_finished)
-
-func _on_animation_finished():
-	can_idle = true
+		animation_player.connect(&"animation_finished", self._on_animated_sprite_2d_animation_finished)
+	else:
+		animation_player = $AnimateSymbol
+		animation_player.connect(&"finished", self._on_animate_symbol_finished)
 
 func play_animation(animation_name: StringName = &"", time: float = -1.0):
-	if process_mode == Node.PROCESS_MODE_DISABLED or not animation_player:
+	if process_mode == Node.PROCESS_MODE_DISABLED:
 		return
 	
 	animation_name = StringName(animation_prefix + animation_name)
@@ -113,24 +101,15 @@ func get_current_frame_texture() -> Texture:
 	animation_player.frame)
 
 
+func _on_animated_sprite_2d_animation_finished():
+	can_idle = true
+
+
 func hold_animation():
-	if not animation_player: return
-	
 	var hold_frame: int = 0
 	var real_animation: StringName
 	var length: int
-	
-	if animation_player is AnimateSymbol:
-		real_animation = get_real_animation(current_animation)
-		length = animation_player.get_animation_length()
-		hold_frame = hold_frames.get(real_animation, length - 1)
-		
-		if (animation_player.frame == length - 1 and animation_player.frame_progress == 1):
-			animation_player.frame = hold_frame
-		
-		animation_player.playing = true
-		
-	else:
+	if animation_player is AnimatedSprite2D:
 		real_animation = get_real_animation(current_animation)
 		length = animation_player.sprite_frames.get_frame_count(real_animation)
 		hold_frame = hold_frames.get(real_animation, length - 1)
@@ -139,12 +118,25 @@ func hold_animation():
 			animation_player.frame = hold_frame
 		
 		animation_player.play()
+	else:
+		real_animation = get_real_animation(current_animation)
+		length = animation_player.get_animation_length()
+		hold_frame = hold_frames.get(real_animation, length - 1)
+		
+		if (animation_player.frame == length - 1 and animation_player.frame_progress == 1):
+			animation_player.frame = hold_frame
+		
+		animation_player.playing = true
 	
 	can_idle = false
 
 
 func set_holding(toggled: bool):
 	holding = toggled
+
+
+func _on_animate_symbol_finished() -> void:
+	can_idle = true
 
 
 func _on_animated_sprite_2d_frame_changed():
