@@ -183,6 +183,7 @@ func _process(delta):
 		get_tree().change_scene_to_file(death_scene)
 	
 	GameManager.seconds_per_beat = conductor.seconds_per_beat
+	GameManager.seconds_per_step = conductor.seconds_per_step
 	
 	# Why is this a thing I have to do
 	if get_tree() != null:

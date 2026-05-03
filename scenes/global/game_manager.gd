@@ -51,6 +51,7 @@ var accuracy: float = 0.0
 var deaths: int = 0
 var song_position: float
 var seconds_per_beat: float
+var seconds_per_step: float
 var offset: float
 
 func _ready() -> void:
