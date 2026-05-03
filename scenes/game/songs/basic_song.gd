@@ -15,7 +15,7 @@ func _ready():
 		playstate_host.ui.set_player_icons(player.icons)
 		playstate_host.ui.set_player_color(player.color)
 		DeathScreen.player_position = player.global_position
-		DeathScreen.player_scale = player.scale
+		DeathScreen.player_scale = Vector2(player.scale.x,player.scale.y)
 	
 	if enemy:
 		playstate_host.ui.set_enemy_icons(enemy.icons)
