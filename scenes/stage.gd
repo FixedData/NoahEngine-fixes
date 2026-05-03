@@ -1,5 +1,5 @@
 @icon("res://assets/sprites/nodes/stage.png")
-extends Node
+extends Node2D
 class_name Stage
 
 func _on_conductor_new_beat(current_beat, measure_relative):
